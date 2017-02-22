@@ -1,12 +1,21 @@
 package fightGameCharacter.util;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-public class KeyListener extends Thread{
+public class KeyListener extends Thread implements Serializable{
 
-	List<Observer> observers = new ArrayList<Observer>();
+	private CopyOnWriteArrayList<Observer> observers = new CopyOnWriteArrayList<Observer>();
+	//List<Observer> observers = new ArrayList<Observer>();
+	
+
+	public void unregisterObserver(Observer observer){
+		observers.remove(observer);
+	}
+	
 	public void registerObserver(Observer observer){
 		observers.add(observer);
 	}

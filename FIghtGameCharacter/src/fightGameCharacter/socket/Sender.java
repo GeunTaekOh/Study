@@ -10,6 +10,8 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import fightGameCharacter.attack.AttackHandler;
+
 public class Sender {
 
 	private ServerSocket server = null;
@@ -24,12 +26,12 @@ public class Sender {
 	
 	private Socket socket = null;
 	   
-	public void send(String ipAddress, String data){
+	public void send(String ipAddress, AttackHandler attackHandler){
 		try {
 			socket = new Socket(ipAddress, port);
 			os = socket.getOutputStream();
 			oos = new ObjectOutputStream(os);
-			oos.writeObject(data);
+			oos.writeObject(attackHandler);
             oos.flush();
             
             os.close();

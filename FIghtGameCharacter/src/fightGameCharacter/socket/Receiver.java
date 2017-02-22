@@ -9,6 +9,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import fightGameCharacter.attack.AttackHandler;
 import fightGameCharacter.character.GameCharacter;
 
 public class Receiver extends Thread{
@@ -37,7 +38,8 @@ public class Receiver extends Thread{
 
         while (true) {
             Socket socket;
-            String receiveData = "";
+            //String receiveData = "";
+            AttackHandler attackHandler = null;
 			try {
 				socket = serverSocket.accept();
 
@@ -46,8 +48,8 @@ public class Receiver extends Thread{
 
 				is = socket.getInputStream();
 				ois = new ObjectInputStream(is);
-				receiveData = (String)ois.readObject();
-				realCharacter.defense(receiveData);
+				attackHandler = (AttackHandler)ois.readObject();
+				realCharacter.defense(attackHandler);
 				
 			} catch (IOException | ClassNotFoundException e) {
 				e.printStackTrace();

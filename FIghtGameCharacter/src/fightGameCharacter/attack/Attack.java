@@ -4,20 +4,22 @@ package fightGameCharacter.attack;
 
 import fightGameCharacter.character.Enemy;
 import fightGameCharacter.character.GameCharacter;
-import fightGameCharacter.socket.Sender;
-
+import fightGameCharacter.socket.*;
 
 public abstract class Attack {
 	
 	protected int attackStrength;
+	protected int attackSpeed;
 
 	protected int characterAttackStrength;
 	protected int characterAttackSpeed;
 	protected Sender sender = new Sender();
+
 	
-	
-	public Attack(int attackStrength, GameCharacter gameCharacter) {
+	public Attack(int attackStrength, int attackSpeed, GameCharacter gameCharacter) {
 		this.attackStrength = attackStrength;
+		this.attackSpeed = attackSpeed;
+		
 		
 		setCharacterAttackStrength(gameCharacter);
 		setCharacterAttackSpeed(gameCharacter);

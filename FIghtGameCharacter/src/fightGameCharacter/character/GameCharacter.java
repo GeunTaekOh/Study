@@ -3,6 +3,7 @@ package fightGameCharacter.character;
 import java.util.ArrayList;
 import java.util.List;
 
+import fightGameCharacter.attack.AttackHandler;
 import fightGameCharacter.attack.AttackRegistry;
 import fightGameCharacter.item.Armor;
 import fightGameCharacter.item.Glove;
@@ -32,9 +33,11 @@ public class GameCharacter implements Observer{
 	private final int RIGHT = 1;
 	
 	private Receiver receiver;
-	private Sender sender;
 	private KeyListener listener = new KeyListener();
-	protected int health = 1000;
+	protected int health = 100;
+	
+	static AttackHandler attackHandler;
+	
 	
 	public static synchronized GameCharacter createGameCharacter(Glove glove, Armor armor, Weapon leftWeapon, Weapon rightWeapon) {
 		if(character==null){
@@ -83,10 +86,36 @@ public class GameCharacter implements Observer{
 		this.weapon.get(0).attack(this.enemy, AttackRegistry.getAttack(type));
 	}
 	
-	public void defense(String attackString) {
+	public void defense(AttackHandler attackHandler) {
 		
-		System.out.println(attackString);
-
+		
+		System.out.println("Power : "+attackHandler.attackPower);
+		System.out.println("Speed : "+attackHandler.attackSpeed);
+		System.out.println("Msg : "+attackHandler.attackMsg +enemy.getIP());
+		//System.out.println("time : " + attackHandler.currentTime);
+		
+		this.listener.registerObserver(attackHandler);
+		attackHandler.start();
+		try {
+			attackHandler.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		this.listener.unregisterObserver(attackHandler);
+		if(attackHandler.isAttacked()){
+			System.out.println("You Damanged!");
+			this.health -= attackHandler.attackPower;
+			if(health<0)	health = 0;
+			if(health==0){
+				System.out.println("You DIE ! ");
+				System.exit(0);
+			}else{
+				System.out.println("Your Health is "+health);	
+			}
+		}else{
+			System.out.println("You Blocked!");
+		}
 	}
 	
 	private String getMessage() {

@@ -17,6 +17,7 @@ public class Weapon {
 	public int getAttackStrength() { return attackStrength; }
 	
 	public void attack(Enemy enemy, Attack attack){
+		if(attack!=null)
 		attack.execute(enemy);
 	}
 	
